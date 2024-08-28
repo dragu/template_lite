@@ -36,7 +36,7 @@ function template_destroy_dir($file, $id, $dir, &$object)
 		else
 		{
 			$_args = "";
-			foreach(explode('|', $id) as $value)
+			foreach(explode('|', (string) $id) as $value)
 			{
 				$_args .= $value.DIRECTORY_SEPARATOR;
 			}
@@ -47,9 +47,9 @@ function template_destroy_dir($file, $id, $dir, &$object)
 
 function template_rm_dir($dir)
 {
-	if (is_file(substr($dir, 0, -1)))
+	if (is_file(substr((string) $dir, 0, -1)))
 	{
-		@unlink(substr($dir, 0, -1));
+		@unlink(substr((string) $dir, 0, -1));
 		return;
 	}
 	if ($d = opendir($dir))
@@ -58,7 +58,7 @@ function template_rm_dir($dir)
 		{
 			if ($f != '.' && $f != '..')
 			{
-				template_rm_dir($dir.$f.DIRECTORY_SEPARATOR, $object);
+				template_rm_dir($dir.$f.DIRECTORY_SEPARATOR);
 			}
 		}
 		@rmdir($dir.$f);

@@ -11,11 +11,10 @@ $tpl->cache_lifetime = 3600;
 $tpl->config_overwrite = false;
 
 $tpl->assign("Name","Fred Irving Johnathan Bradley Peppergill");
-$tpl->assign("FirstName",array("John","Mary","James","Henry"));
-$tpl->assign("contacts", array(array("phone" => "1", "fax" => "2", "cell" => "3"),
-	  array("phone" => "555-5555", "fax" => "555-4444", "cell" => "555-3333")));
-$tpl->assign("bold", array("up", "down", "left", "right"));
-$tpl->assign("lala", array("up" => "first entry", "down" => "last entry"));
+$tpl->assign("FirstName",["John", "Mary", "James", "Henry"]);
+$tpl->assign("contacts", [["phone" => "1", "fax" => "2", "cell" => "3"], ["phone" => "555-5555", "fax" => "555-4444", "cell" => "555-3333"]]);
+$tpl->assign("bold", ["up", "down", "left", "right"]);
+$tpl->assign("lala", ["up" => "first entry", "down" => "last entry"]);
 
 $tpl->display("index.tpl");
 

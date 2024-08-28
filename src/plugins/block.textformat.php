@@ -27,7 +27,7 @@ function tpl_block_textformat($params, $content, &$template_object)
 	$wrap_char = "\n";
 	$wrap_cut = false;
 	$assign = null;
-	
+
 	if($content == null)
 	{
 		return true;
@@ -40,7 +40,7 @@ function tpl_block_textformat($params, $content, &$template_object)
 		$wrap = 72;
 	}
 	// split into paragraphs	
-	$paragraphs = preg_split('![\r\n][\r\n]!',$content);
+	$paragraphs = preg_split('![\r\n][\r\n]!',(string) $content);
 
 	foreach($paragraphs as $paragraph)
 	{
@@ -49,14 +49,14 @@ function tpl_block_textformat($params, $content, &$template_object)
 			continue;
 		}
 		// convert mult. spaces & special chars to single space
-		$paragraph = preg_replace(array('!\s+!','!(^\s+)|(\s+$)!'),array(' ',''),$paragraph);
+		$paragraph = preg_replace(['!\s+!', '!(^\s+)|(\s+$)!'],[' ', ''],$paragraph);
 		// indent first line
 		if($indent_first > 0)
 		{
 			$paragraph = str_repeat($indent_char,$indent_first) . $paragraph;
 		}
 		// wordwrap sentences
-		$paragraph = wordwrap($paragraph, $wrap - $indent, $wrap_char, $wrap_cut);
+		$paragraph = wordwrap((string) $paragraph, $wrap - $indent, $wrap_char, $wrap_cut);
 		// indent lines
 		if($indent > 0)
 		{

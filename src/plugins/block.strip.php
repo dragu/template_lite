@@ -10,14 +10,12 @@
  */
 function tpl_block_strip($params, $content, &$tpl)
 {
-	$_strip_search = array(
-		"![\t ]+$|^[\t ]+!m",		// remove leading/trailing space chars
-		'%[\r\n]+%m',			// remove CRs and newlines
-	);
-	$_strip_replace = array(
-		'',
-		'',
-	);
+	$_strip_search = [
+     "![\t ]+$|^[\t ]+!m",
+     // remove leading/trailing space chars
+     '%[\r\n]+%m',
+ ];
+	$_strip_replace = ['', ''];
 	return preg_replace($_strip_search, $_strip_replace, $content);
 }
 ?>

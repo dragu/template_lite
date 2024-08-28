@@ -25,7 +25,7 @@ function tpl_function_html_textbox($params, &$tpl)
 		{
 			case 'name':
 			case 'value':
-				$$_key = $_value;
+				${$_key} = $_value;
 				break;
 			default:
 				if(!is_array($_key))

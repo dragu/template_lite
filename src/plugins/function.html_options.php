@@ -14,7 +14,7 @@ function tpl_function_html_options($params, &$tpl)
 	require_once("shared.escape_chars.php");
 	$name = null;
 	$options = null;
-	$selected = array();
+	$selected = [];
 	$extra = '';
   
 	foreach($params as $_key => $_val)
@@ -22,17 +22,17 @@ function tpl_function_html_options($params, &$tpl)
 		switch($_key)
 		{
 			case 'name':
-				$$_key = (string)$_val;
+				${$_key} = (string)$_val;
 				break;
 			case 'options':
-				$$_key = (array)$_val;
+				${$_key} = (array)$_val;
 				break;
 			case 'values':
 			case 'output':
-				$$_key = array_values((array)$_val);
+				${$_key} = array_values((array)$_val);
 				break;
 			case 'selected':
-				$$_key = array_values((array)$_val);      
+				${$_key} = array_values((array)$_val);      
 				break;
 			default:
 				if(!is_array($_key))
@@ -59,7 +59,7 @@ function tpl_function_html_options($params, &$tpl)
 	{
 		foreach ((array)$values as $_i=>$_key)
 		{
-			$_val = isset($output[$_i]) ? $output[$_i] : '';
+			$_val = $output[$_i] ?? '';
 			$_html_result .= tpl_function_html_options_optoutput($tpl, $_key, $_val, $selected);
 		}
 	 }

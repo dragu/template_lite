@@ -53,7 +53,7 @@ function tpl_function_cycle($params, &$tpl)
 		$cycle_vars[$name]['values'] = $params['values'];
 	}
 
-	$cycle_vars[$name]['delimiter'] = (isset($params['delimiter'])) ? $params['delimiter'] : ',';
+	$cycle_vars[$name]['delimiter'] = $params['delimiter'] ?? ',';
 
 	if(is_array($cycle_vars[$name]['values']))
 	{
@@ -61,7 +61,7 @@ function tpl_function_cycle($params, &$tpl)
 	}
 	else
 	{
-		$cycle_array = explode($cycle_vars[$name]['delimiter'],$cycle_vars[$name]['values']);
+		$cycle_array = explode($cycle_vars[$name]['delimiter'],(string) $cycle_vars[$name]['values']);
 	}
 
 	if(!isset($cycle_vars[$name]['index']) || $reset )

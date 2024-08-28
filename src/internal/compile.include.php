@@ -10,7 +10,7 @@ function compile_include($arguments, &$object)
 {
 	$_args = $object->_parse_arguments($arguments);
 
-	$arg_list = array();
+	$arg_list = [];
 	if (empty($_args['file']))
 	{
 		$object->trigger_error("missing 'file' attribute in include tag", E_USER_ERROR, __FILE__, __LINE__);

@@ -9,7 +9,7 @@
 function compile_section_start($arguments, &$object)
 {
 	$attrs = $object->_parse_arguments($arguments);
-	$arg_list = array();
+	$arg_list = [];
 
 	$output = '<?php ';
 	$section_name = $attrs['name'];

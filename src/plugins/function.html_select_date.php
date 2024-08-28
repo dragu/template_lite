@@ -107,8 +107,8 @@ function tpl_function_html_select_date($params, &$template_object)
 
     if ($display_months)
 	{
-        $month_names = array();
-        $month_values = array();
+        $month_names = [];
+        $month_values = [];
 
         for ($i = 1; $i <= 12; $i++)
 		{
@@ -138,17 +138,14 @@ function tpl_function_html_select_date($params, &$template_object)
             $month_result .= ' ' . $all_extra;
         }
         $month_result .= '>'."\n";
-        $month_result .= tpl_function_html_options(array('output'     => $month_names,
-                                                            'values'     => $month_values,
-                                                            'selected'   => $month_values[$time[1]-1],
-                                                            'print_result' => false),
+        $month_result .= tpl_function_html_options(['output'     => $month_names, 'values'     => $month_values, 'selected'   => $month_values[$time[1]-1], 'print_result' => false],
                                                       $template_object);
         $month_result .= '</select>';
     }
 
     if ($display_days)
 	{
-        $days = array();
+        $days = [];
         for ($i = 1; $i <= 31; $i++)
 		{
             $days[] = sprintf($day_format, $i);
@@ -177,10 +174,7 @@ function tpl_function_html_select_date($params, &$template_object)
             $day_result .= ' ' . $day_extra;
         }
         $day_result .= '>'."\n";
-        $day_result .= tpl_function_html_options(array('output'     => $days,
-                                                          'values'     => $day_values,
-                                                          'selected'   => $time[2],
-                                                          'print_result' => false),
+        $day_result .= tpl_function_html_options(['output'     => $days, 'values'     => $day_values, 'selected'   => $time[2], 'print_result' => false],
                                                     $template_object);
         $day_result .= '</select>';
     }
@@ -230,10 +224,7 @@ function tpl_function_html_select_date($params, &$template_object)
                 $year_result .= ' ' . $year_extra;
             }
             $year_result .= '>'."\n";
-            $year_result .= tpl_function_html_options(array('output' => $years,
-                                                               'values' => $years,
-                                                               'selected'   => $time[0],
-                                                               'print_result' => false),
+            $year_result .= tpl_function_html_options(['output' => $years, 'values' => $years, 'selected'   => $time[0], 'print_result' => false],
                                                          $template_object);
             $year_result .= '</select>';
         }

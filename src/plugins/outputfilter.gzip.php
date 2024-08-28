@@ -19,7 +19,7 @@ function template_outputfilter_gzip($tpl_source, &$template_object)
 	$gzipped = 0;
 	if($template_object->enable_gzip)
 	{
-		if(extension_loaded("zlib") && !get_cfg_var('zlib.output_compression') && !$template_object->cache && (strstr($_SERVER["HTTP_ACCEPT_ENCODING"],"gzip") || $template_object->force_compression))
+		if(extension_loaded("zlib") && !get_cfg_var('zlib.output_compression') && !$template_object->cache && (strstr((string) $_SERVER["HTTP_ACCEPT_ENCODING"],"gzip") || $template_object->force_compression))
 		{
 			$_tpl_saved .= $tpl_source . "\n<!-- zlib compression level " . $template_object->compression_level . " -->\n\n";
 			$tpl_source = "";
@@ -52,7 +52,7 @@ function template_outputfilter_gzip($tpl_source, &$template_object)
 		if($gzipped == 1)
 		{
 			header("Content-Encoding: gzip");
-			header("Content-Length: " . strlen($tpl_source));
+			header("Content-Length: " . strlen((string) $tpl_source));
 		}
 	}
 

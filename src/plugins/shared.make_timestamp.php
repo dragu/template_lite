@@ -12,7 +12,7 @@ function tpl_make_timestamp($string)
 	{
 		$string = "now";
 	}
-	$time = strtotime($string);
+	$time = strtotime((string) $string);
 	if (is_numeric($time) && $time != -1)
 	{
 		return $time;

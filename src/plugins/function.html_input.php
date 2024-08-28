@@ -27,10 +27,10 @@ function tpl_function_html_input($params, &$tpl)
 		{
 			case 'name':
 			case 'value':
-				$$_key = $_value;
+				${$_key} = $_value;
 				break;
 			case 'password':
-				$$_key = true;
+				${$_key} = true;
 				break;
 			default:
 				if(!is_array($_key))

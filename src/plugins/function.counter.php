@@ -11,11 +11,11 @@
  */
 function tpl_function_counter($params, &$tpl)
 {
-	static $count = array();
-	static $skipval = array();
-	static $dir = array();
+	static $count = [];
+	static $skipval = [];
+	static $dir = [];
 	static $name = "default";
-	static $printval = array();
+	static $printval = [];
 	static $assign = "";
 
 	extract($params);

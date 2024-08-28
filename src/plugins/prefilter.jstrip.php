@@ -21,7 +21,7 @@ function template_prefilter_jstrip($tpl_source, &$template_object)
 
 function template_prefilter_jstrip_one($code)
 {
-	return template_prefilter_jstrip_cb(array("", $code), false);
+	return template_prefilter_jstrip_cb(["", $code], false);
 } 
 
 function template_prefilter_jstrip_cb($m, $literal=true)
@@ -31,7 +31,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 	$comment=0; //comments
 	$string=""; //current string delimiter
 	$last=""; //last char in the output
-	for ($i=0;$i<strlen($c);$i++)
+	for ($i=0;$i<strlen((string) $c);$i++)
 	{
 		//if ($i%100==0) {
 		//print_v(array($i,$string,$comment));
@@ -41,7 +41,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 		if (!empty($string))
 		{
 			//end of the string
-			if ($c[$i]==$string OR substr($c,$i,2)==$string)
+			if ($c[$i]==$string OR substr((string) $c,$i,2)==$string)
 			{
 				$string="";
 			}
@@ -50,12 +50,12 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 		else
 		{
 			//strip comments
-			if (substr($c,$i,2)=="//")
+			if (substr((string) $c,$i,2)=="//")
 			{
 				$comment=1;
 			}
 
-			if (substr($c,$i,2)=="/*")
+			if (substr((string) $c,$i,2)=="/*")
 			{
 				$comment=2;
 			}
@@ -65,7 +65,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 				$comment=0;
 			}
 
-			if ($comment==2 AND substr($c,$i-1,2)=="*/")
+			if ($comment==2 AND substr((string) $c,$i-1,2)=="*/")
 			{
 				$comment=0;
 				$s=false;
@@ -80,7 +80,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 				}
 
 				//start phpcode
-				if (substr($c,$i,2)=="<"."?")
+				if (substr((string) $c,$i,2)=="<"."?")
 				{
 					$string="?".">";
 				}
@@ -90,7 +90,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 				{
 					//is the current line finished ?
 					// ")" and "}" is not OK ! (var x=function a() {}.......var )
-					$finishers=array(";","{","(",",","\n",":");
+					$finishers=[";", "{", "(", ",", "\n", ":"];
 					if (in_array($last,$finishers))
 					{
 						$s=false;
@@ -100,7 +100,7 @@ function template_prefilter_jstrip_cb($m, $literal=true)
 				//a space ! can we cut it ?
 				if ($c[$i]==" " OR $c[$i]=="\t")
 				{
-					$cutme=array(" ","\t","}","{",")","(","[","]","<",">","=",";","+","-","/","*","\n",":","&");
+					$cutme=[" ", "\t", "}", "{", ")", "(", "[", "]", "<", ">", "=", ";", "+", "-", "/", "*", "\n", ":", "&"];
 					if (in_array($c[$i-1],$cutme) OR in_array($c[$i+1],$cutme))
 					{
 						$s=false;

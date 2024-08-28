@@ -17,14 +17,14 @@ function tpl_modifier_truncate($string, $length = 80, $etc = '...', $break_words
 		return '';
 	}
 
-	if (strlen($string) > $length)
+	if (strlen((string) $string) > $length)
 	{
-		$length -= strlen($etc);
+		$length -= strlen((string) $etc);
 		if (!$break_words)
 		{
-			$string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length+1));
+			$string = preg_replace('/\s+?(\S+)?$/', '', substr((string) $string, 0, $length+1));
 		}
-		return substr($string, 0, $length).$etc;
+		return substr((string) $string, 0, $length).$etc;
 	}
 	else
 	{

@@ -8,7 +8,7 @@
 
 function template_build_dir($dir, $id, &$object)
 {
-	$_args = explode('|', $id);
+	$_args = explode('|', (string) $id);
 	if (count($_args) == 1 && empty($_args[0]))
 	{
 		return $object->_get_dir($dir);

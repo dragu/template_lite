@@ -25,7 +25,7 @@ function tpl_function_popup($params, &$template_object)
 		$trigger = "onmouseover";
 	}
 
-    $retval = $trigger . '="return overlib(\''.preg_replace(array("!'!","![\r\n]!"),array("\'",'\r'),$text).'\'';
+    $retval = $trigger . '="return overlib(\''.preg_replace(["!'!", "![\r\n]!"],["\'", '\r'],$text).'\'';
     if ($sticky) { $retval .= ",STICKY"; }
     if (!empty($caption)) { $retval .= ",CAPTION,'".str_replace("'","\'",$caption)."'"; }
     if (!empty($fgcolor)) { $retval .= ",FGCOLOR,'$fgcolor'"; }

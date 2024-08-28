@@ -9,12 +9,12 @@
 function compile_compile_if($arguments, $elseif, $while, &$object)
 {
 	$_result	= "";
-	$_match		= array();
-	$_args		= array();
-	$_is_arg_stack	= array();
+	$_match		= [];
+	$_args		= [];
+	$_is_arg_stack	= [];
 
 	// extract arguments from the equation
-	preg_match_all('/(?>(' . $object->_var_regexp . '|\/?' . $object->_svar_regexp . '|\/?' . $object->_func_regexp . ')(?:' . $object->_mod_regexp . '*)?|\-?0[xX][0-9a-fA-F]+|\-?\d+(?:\.\d+)?|\.\d+|!==|===|==|!=|<>|<<|>>|<=|>=|\&\&|\|\||\(|\)|,|\!|\^|=|\&|\~|<|>|\%|\+|\-|\/|\*|\@|\b\w+\b|\S+)/x', $arguments, $_match);
+	preg_match_all('/(?>(' . $object->_var_regexp . '|\/?' . $object->_svar_regexp . '|\/?' . $object->_func_regexp . ')(?:' . $object->_mod_regexp . '*)?|\-?0[xX][0-9a-fA-F]+|\-?\d+(?:\.\d+)?|\.\d+|!==|===|==|!=|<>|<<|>>|<=|>=|\&\&|\|\||\(|\)|,|\!|\^|=|\&|\~|<|>|\%|\+|\-|\/|\*|\@|\b\w+\b|\S+)/x', (string) $arguments, $_match);
 	$_args = $_match[0];
 
 	// make sure we have balanced parenthesis
@@ -28,7 +28,7 @@ function compile_compile_if($arguments, $elseif, $while, &$object)
 	for ($i = 0, $for_max = $count_args; $i < $for_max; $i++)
 	{
 		$_arg = &$_args[$i];
-		switch (strtolower($_arg))
+		switch (strtolower((string) $_arg))
 		{
 			case '!':
 			case '%':
@@ -107,11 +107,11 @@ function compile_compile_if($arguments, $elseif, $while, &$object)
 				}
 				break;
 			default:
-				preg_match('/(?:(' . $object->_var_regexp . '|' . $object->_svar_regexp . '|' . $object->_func_regexp . ')(' . $object->_mod_regexp . '*)(?:\s*[,\.]\s*)?)(?:\s+(.*))?/xs', $_arg, $_match);
-				if (isset($_match[0]{0}) && ($_match[0]{0} == '$' || ($_match[0]{0} == '#' && $_match[0]{strlen($_match[0]) - 1} == '#') || $_match[0]{0} == "'" || $_match[0]{0} == '"' || $_match[0]{0} == '%'))
+				preg_match('/(?:(' . $object->_var_regexp . '|' . $object->_svar_regexp . '|' . $object->_func_regexp . ')(' . $object->_mod_regexp . '*)(?:\s*[,\.]\s*)?)(?:\s+(.*))?/xs', (string) $_arg, $_match);
+				if (isset($_match[0][0]) && ($_match[0][0] == '$' || ($_match[0][0] == '#' && $_match[0][strlen($_match[0]) - 1] == '#') || $_match[0][0] == "'" || $_match[0][0] == '"' || $_match[0][0] == '%'))
 				{
 					// process a variable
-					$_arg = $object->_parse_variables(array($_match[1]), array($_match[2]));
+					$_arg = $object->_parse_variables([$_match[1]], [$_match[2]]);
 				}
 				elseif (is_numeric($_arg))
 				{

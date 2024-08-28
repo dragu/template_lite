@@ -68,7 +68,7 @@ function tpl_function_html_table($params, &$template_object)
 
 function tpl_function_html_table_cycle($name, $var)
 {
-	static $names = array();
+	static $names = [];
 
 	if(!is_array($var))
 	{

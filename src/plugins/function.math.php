@@ -22,16 +22,15 @@ function tpl_function_math($params, &$template_object)
     $equation = $params['equation'];
 
     // make sure parenthesis are balanced
-    if (substr_count($equation,"(") != substr_count($equation,")"))
+    if (substr_count((string) $equation,"(") != substr_count((string) $equation,")"))
 	{
         $template_object->trigger_error("math: unbalanced parenthesis");
         return;
     }
 
     // match all vars in equation, make sure all are passed
-    preg_match_all("![a-zA-Z][a-zA-Z0-9_]*!",$equation, $match);
-    $allowed_funcs = array('int','abs','ceil','cos','exp','floor','log','log10',
-                           'max','min','pi','pow','rand','round','sin','sqrt','srand','tan');
+    preg_match_all("![a-zA-Z][a-zA-Z0-9_]*!",(string) $equation, $match);
+    $allowed_funcs = ['int', 'abs', 'ceil', 'cos', 'exp', 'floor', 'log', 'log10', 'max', 'min', 'pi', 'pow', 'rand', 'round', 'sin', 'sqrt', 'srand', 'tan'];
 
     foreach($match[0] as $curr_var)
 	{
@@ -47,7 +46,7 @@ function tpl_function_math($params, &$template_object)
         if ($key != "equation" && $key != "format" && $key != "assign")
 		{
             // make sure value is not empty
-            if (strlen($val)==0)
+            if (strlen((string) $val)==0)
 			{
                 $template_object->trigger_error("math: parameter $key is empty");
                 return;

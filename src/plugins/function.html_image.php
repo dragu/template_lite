@@ -31,7 +31,7 @@ function tpl_function_html_image($params, &$tpl)
 	$extra = '';
 	$prefix = '';
 	$suffix = '';
-	$basedir = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+	$basedir = $_SERVER['DOCUMENT_ROOT'] ?? '';
 	foreach($params as $_key => $_val)
 	{
 		switch($_key)
@@ -39,15 +39,15 @@ function tpl_function_html_image($params, &$tpl)
 			case 'url':
 			case 'height':
 			case 'width':
-				$$_key = $_val;
+				${$_key} = $_val;
 				break;
 			case 'limit':
-				$$_key = true;
+				${$_key} = true;
 				break;
 			case 'alt':
 				if(!is_array($_val))
 				{
-					$$_key = tpl_escape_chars($_val);
+					${$_key} = tpl_escape_chars($_val);
 				}
 				else
 				{
@@ -78,7 +78,7 @@ function tpl_function_html_image($params, &$tpl)
 		return;
 	}
 
-	if (substr($file,0,1) == '/')
+	if (str_starts_with((string) $file, '/'))
 	{
 		$_image_path = $basedir . $file;
 	}

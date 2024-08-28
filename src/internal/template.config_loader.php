@@ -50,7 +50,7 @@ if (!empty($var_name) || !empty($section_name))
 else
 {
 	// must shift of the bottom level of the array to get rid of the section labels
-	$_temp = array();
+	$_temp = [];
 	foreach($_result as $value)
 	{
 		$_temp = array_merge($_temp, $value);
@@ -65,10 +65,7 @@ eval($output);
 
 if ($this->debugging)
 {
-	$this->_templatelite_debug_info[] = array('type'	  => 'config',
-										'filename'  => $file.' ['.$section_name.'] '.$var_name,
-										'depth'	 => 0,
-										'exec_time' => array_sum(explode(' ', microtime())) - $debug_start_time );
+	$this->_templatelite_debug_info[] = ['type'	  => 'config', 'filename'  => $file.' ['.$section_name.'] '.$var_name, 'depth'	 => 0, 'exec_time' => array_sum(explode(' ', microtime())) - $debug_start_time];
 }
 
 return true;

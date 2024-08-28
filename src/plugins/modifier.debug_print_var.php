@@ -23,7 +23,7 @@ function tpl_modifier_debug_print_var($var, $depth = 0, $length = 40)
 	else if (is_object($var))
 	{
         $object_vars = get_object_vars($var);
-        $results = "<b>".get_class($var)." Object (".count($object_vars).")</b>";
+        $results = "<b>".$var::class." Object (".count($object_vars).")</b>";
         foreach ($object_vars as $curr_key => $curr_val)
 		{
             $return = tpl_modifier_debug_print_var($curr_val, $depth+1, $length);
@@ -37,9 +37,9 @@ function tpl_modifier_debug_print_var($var, $depth = 0, $length = 40)
 		{
             return '<i>empty</i>';
         }
-        if (strlen($var) > $length )
+        if (strlen((string) $var) > $length )
 		{
-            $results = substr($var, 0, $length-3).'...';
+            $results = substr((string) $var, 0, $length-3).'...';
         }
 		else
 		{

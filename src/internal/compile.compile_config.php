@@ -11,7 +11,7 @@ function compile_compile_config($variable, &$object)
 	$_result	= "";
 
 	// remove the beginning and ending #
-	$variable = substr($variable, 1, -1);
+	$variable = substr((string) $variable, 1, -1);
 
 	// get [foo] and .foo and (...) pieces			
 	preg_match_all('!(?:^\w+)|(?:' . $object->_var_bracket_regexp . ')|\.\$?\w+|\S+!', $variable, $_match);
@@ -21,18 +21,18 @@ function compile_compile_config($variable, &$object)
 	$_result = "\$this->_confs['$var_name']";
 	foreach ($variable as $var)
 	{
-		if ($var{0} == '[')
+		if ($var[0] == '[')
 		{
 			$var = substr($var, 1, -1);
 			if (is_numeric($var))
 			{
 				$_result .= "[$var]";
 			}
-			elseif ($var{0} == '$')
+			elseif ($var[0] == '$')
 			{
 				$_result .= "[" . $object->_compile_variable($var) . "]";
 			}
-			elseif ($var{0} == '#')
+			elseif ($var[0] == '#')
 			{
 				$_result .= "[" . $object->_compile_config($var) . "]";
 			}
@@ -41,9 +41,9 @@ function compile_compile_config($variable, &$object)
 				$_result .= "['$var']";
 			}
 	   }
-	   else if ($var{0} == '.')
+	   else if ($var[0] == '.')
 	   {
-  				if ($var{1} == '$')
+  				if ($var[1] == '$')
 			{
    				$_result .= "[\$this->_TPL['" . substr($var, 2) . "']]";
 			}
@@ -52,7 +52,7 @@ function compile_compile_config($variable, &$object)
 		   		$_result .= "['" . substr($var, 1) . "']";
 			}
 		}
-		else if (substr($var,0,2) == '->')
+		else if (str_starts_with($var, '->'))
 		{
 			if(substr($var,2,2) == '__')
 			{

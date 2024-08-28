@@ -29,7 +29,7 @@
 function template_outputfilter_trimwhitespace($tpl_source, &$template_object)
 {
     // Pull out the script blocks
-    preg_match_all("!<script[^>]+>.*?</script>!is", $tpl_source, $match);
+    preg_match_all("!<script[^>]+>.*?</script>!is", (string) $tpl_source, $match);
     $_script_blocks = $match[0];
     $tpl_source = preg_replace("!<script[^>]+>.*?</script>!is",
                            '@@@TEMPLATELITE:TRIM:SCRIPT@@@', $tpl_source);
@@ -63,11 +63,11 @@ function template_outputfilter_trimwhitespace($tpl_source, &$template_object)
 }
 
 function template_outputfilter_trimwhitespace_replace($search_str, $replace, &$subject) {
-    $_len = strlen($search_str);
+    $_len = strlen((string) $search_str);
     $_pos = 0;
     for ($_i=0, $_count=count($replace); $_i<$_count; $_i++)
 	{
-        if (($_pos=strpos($subject, $search_str, $_pos))!==false)
+        if (($_pos=strpos((string) $subject, (string) $search_str, $_pos))!==false)
 		{
             $subject = substr_replace($subject, $replace[$_i], $_pos, $_len);
 		}

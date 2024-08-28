@@ -8,6 +8,6 @@
  */
 function tpl_modifier_lower($string)
 {
-	return strtolower($string);
+	return strtolower((string) $string);
 }
 ?>

@@ -8,6 +8,6 @@
  */
 function tpl_modifier_upper($string)
 {
-	return strtoupper($string);
+	return strtoupper((string) $string);
 }
 ?>

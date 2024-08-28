@@ -26,46 +26,46 @@
 
 class Template_Lite_Compiler extends Template_Lite {
 	// public configuration variables
-	var $left_delimiter			= "";
-	var $right_delimiter			= "";
-	var $plugins_dir			= "";
-	var $template_dir		= "";
-	var $reserved_template_varname = "";
-	var $default_modifiers		= array();
+	public $left_delimiter			= "";
+	public $right_delimiter			= "";
+	public $plugins_dir			= "";
+	public $template_dir		= "";
+	public $reserved_template_varname = "";
+	public $default_modifiers		= [];
 
-	var $php_extract_vars		=	true;	// Set this to false if you do not want the $this->_tpl variables to be extracted for use by PHP code inside the template.
+	public $php_extract_vars		=	true;	// Set this to false if you do not want the $this->_tpl variables to be extracted for use by PHP code inside the template.
 
 	// private internal variables
-	var $_vars			=	array();	// stores all internal assigned variables
-	var $_confs			=	array();	// stores all internal config variables
-	var $_plugins			=	array();	// stores all internal plugins
-	var $_linenum			=	0;		// the current line number in the file we are processing
-	var $_file			=	"";		// the current file we are processing
-	var $_literal			=	array();	// stores all literal blocks
-	var $_foreachelse_stack		=	array();
-	var $_for_stack			=	0;
-	var $_sectionelse_stack	 =   array();	// keeps track of whether section had 'else' part
-	var $_switch_stack		=	array();
-	var $_tag_stack			=	array();
-	var $_require_stack		=	array();	// stores all files that are "required" inside of the template
-	var $_php_blocks		=	array();	// stores all of the php blocks
-	var $_error_level		=	null;
-	var $_sl_md5			=	'39fc70570b8b60cbc1b85839bf242aff';
+	public $_vars			=	[];	// stores all internal assigned variables
+	public $_confs			=	[];	// stores all internal config variables
+	public $_plugins			=	[];	// stores all internal plugins
+	public $_linenum			=	0;		// the current line number in the file we are processing
+	public $_file			=	"";		// the current file we are processing
+	public $_literal			=	[];	// stores all literal blocks
+	public $_foreachelse_stack		=	[];
+	public $_for_stack			=	0;
+	public $_sectionelse_stack	 =   [];	// keeps track of whether section had 'else' part
+	public $_switch_stack		=	[];
+	public $_tag_stack			=	[];
+	public $_require_stack		=	[];	// stores all files that are "required" inside of the template
+	public $_php_blocks		=	[];	// stores all of the php blocks
+	public $_error_level		=	null;
+	public $_sl_md5			=	'39fc70570b8b60cbc1b85839bf242aff';
 
-	var $_db_qstr_regexp		=	null;		// regexps are setup in the constructor
-	var $_si_qstr_regexp		=	null;
-	var $_qstr_regexp		=	null;
-	var $_func_regexp		=	null;
-	var $_var_bracket_regexp	=	null;
-	var $_dvar_regexp		=	null;
-	var $_cvar_regexp		=	null;
-	var $_svar_regexp		=	null;
-	var $_mod_regexp		=	null;
-	var $_var_regexp		=	null;
-    var $_obj_params_regexp     =   null;
-	var $_templatelite_vars		=	array();
+	public $_db_qstr_regexp		=	null;		// regexps are setup in the constructor
+	public $_si_qstr_regexp		=	null;
+	public $_qstr_regexp		=	null;
+	public $_func_regexp		=	null;
+	public $_var_bracket_regexp	=	null;
+	public $_dvar_regexp		=	null;
+	public $_cvar_regexp		=	null;
+	public $_svar_regexp		=	null;
+	public $_mod_regexp		=	null;
+	public $_var_regexp		=	null;
+    public $_obj_params_regexp     =   null;
+	public $_templatelite_vars		=	[];
 
-	function Template_Lite_compiler()
+	function __construct()
 	{
 		// matches double quoted strings:
 		// "foobar"
@@ -131,15 +131,15 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _compile_file($file_contents)
 	{
-		$ldq = preg_quote($this->left_delimiter);
-		$rdq = preg_quote($this->right_delimiter);
-		$_match		= array();		// a temp variable for the current regex match
-		$tags		= array();		// all original tags
-		$text		= array();		// all original text
+		$ldq = preg_quote((string) $this->left_delimiter);
+		$rdq = preg_quote((string) $this->right_delimiter);
+		$_match		= [];		// a temp variable for the current regex match
+		$tags		= [];		// all original tags
+		$text		= [];		// all original text
 		$compiled_text	= '<?php /* '.$this->_version.' '.strftime("%Y-%m-%d %H:%M:%S %Z").' */ ?>'."\n\n"; // stores the compiled result
-		$compiled_tags	= array();		// all tags and stuff
+		$compiled_tags	= [];		// all tags and stuff
 
-		$this->_require_stack = array();
+		$this->_require_stack = [];
 
 		$this->_load_filters();
 
@@ -223,14 +223,14 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _compile_tag($tag)
 	{
-		$_match		= array();		// stores the tags
+		$_match		= [];		// stores the tags
 		$_result	= "";			// the compiled tag
 		$_variable	= "";			// the compiled variable
 
 		// extract the tag command, modifier and arguments
-		preg_match_all('/(?:(' . $this->_var_regexp . '|' . $this->_svar_regexp . '|\/?' . $this->_func_regexp . ')(' . $this->_mod_regexp . '*)(?:\s*[,\.]\s*)?)(?:\s+(.*))?/xs', $tag, $_match);
+		preg_match_all('/(?:(' . $this->_var_regexp . '|' . $this->_svar_regexp . '|\/?' . $this->_func_regexp . ')(' . $this->_mod_regexp . '*)(?:\s*[,\.]\s*)?)(?:\s+(.*))?/xs', (string) $tag, $_match);
 
-		if ($_match[1][0]{0} == '$' || ($_match[1][0]{0} == '#' && $_match[1][0]{strlen($_match[1][0]) - 1} == '#') || $_match[1][0]{0} == "'" || $_match[1][0]{0} == '"' || $_match[1][0]{0} == '%')
+		if ($_match[1][0][0] == '$' || ($_match[1][0][0] == '#' && $_match[1][0][strlen($_match[1][0]) - 1] == '#') || $_match[1][0][0] == "'" || $_match[1][0][0] == '"' || $_match[1][0][0] == '%')
 		{
 			$_result = $this->_parse_variables($_match[1], $_match[2]);
 			return "<?php echo $_result; ?>\n";
@@ -276,13 +276,15 @@ class Template_Lite_Compiler extends Template_Lite {
 				return $this->right_delimiter;
 				break;
 			case 'literal':
-				list (,$literal) = each($this->_literal);
-				$this->_linenum += substr_count($literal, "\n");
+				$literal = current($this->_literal);
+    next($this->_literal);
+    $this->_linenum += substr_count((string) $literal, "\n");
 				return "<?php echo '" . str_replace("'", "\'", str_replace("\\", "\\\\", $literal)) . "'; ?>\n";
 				break;
 			case 'php':
-				list (,$php_block) = each($this->_php_blocks);
-				$this->_linenum += substr_count($php_block, "\n");
+				$php_block = current($this->_php_blocks);
+    next($this->_php_blocks);
+    $this->_linenum += substr_count((string) $php_block, "\n");
 				$php_extract = '';
 				if($this->php_extract_vars)
 				{
@@ -419,7 +421,7 @@ class Template_Lite_Compiler extends Template_Lite {
 				{
 					$this->trigger_error("missing 'from' attribute in 'switch'", E_USER_ERROR, __FILE__, __LINE__);
 				}
-				array_push($this->_switch_stack, array("matched" => false, "var" => $this->_dequote($_args['from'])));
+				array_push($this->_switch_stack, ["matched" => false, "var" => $this->_dequote($_args['from'])]);
 				return;
 				break;
 			case '/switch':
@@ -549,9 +551,9 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _dequote($string)
 	{
-		if (($string{0} == "'" || $string{0} == '"') && $string{strlen($string)-1} == $string{0})
+		if (($string[0] == "'" || $string[0] == '"') && $string[strlen((string) $string)-1] == $string[0])
 		{
-			return substr($string, 1, -1);
+			return substr((string) $string, 1, -1);
 		}
 		else
 		{
@@ -561,10 +563,10 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _parse_arguments($arguments)
 	{
-		$_match		= array();
-		$_result	= array();
-		$_variables	= array();
-		preg_match_all('/(?:' . $this->_qstr_regexp . ' | (?>[^"\'=\s]+))+|[=]/x', $arguments, $_match);
+		$_match		= [];
+		$_result	= [];
+		$_variables	= [];
+		preg_match_all('/(?:' . $this->_qstr_regexp . ' | (?>[^"\'=\s]+))+|[=]/x', (string) $arguments, $_match);
 		/*
 		   Parse state:
 			 0 - expecting attribute name
@@ -650,8 +652,8 @@ class Template_Lite_Compiler extends Template_Lite {
 		$_result = "";
 		foreach($variables as $key => $value)
 		{
-			$tag_variable = trim($variables[$key]);
-			if(!empty($this->default_modifiers) && !preg_match('!(^|\|)templatelite:nodefaults($|\|)!',$modifiers[$key]))
+			$tag_variable = trim((string) $variables[$key]);
+			if(!empty($this->default_modifiers) && !preg_match('!(^|\|)templatelite:nodefaults($|\|)!',(string) $modifiers[$key]))
 			{
 				$_default_mod_string = implode('|',(array)$this->default_modifiers);
 				$modifiers[$key] = empty($modifiers[$key]) ? $_default_mod_string : $_default_mod_string . '|' . $modifiers[$key];
@@ -671,24 +673,24 @@ class Template_Lite_Compiler extends Template_Lite {
 	function _parse_variable($variable)
 	{
 		// replace variable with value
-		if ($variable{0} == "\$")
+		if ($variable[0] == "\$")
 		{
 			// replace the variable
 			return $this->_compile_variable($variable);
 		}
-		elseif ($variable{0} == '#')
+		elseif ($variable[0] == '#')
 		{
 			// replace the config variable
 			return $this->_compile_config($variable);
 		}
-		elseif ($variable{0} == '"')
+		elseif ($variable[0] == '"')
 		{
 			// expand the quotes to pull any variables out of it
 			// fortunately variables inside of a quote aren't fancy, no modifiers, no quotes
 			//   just get everything from the $ to the ending space and parse it
 			// if the $ is escaped, then we won't expand it
 			$_result = "";
-			preg_match_all('/(?:[^\\\]' . $this->_dvar_regexp . ')/', substr($variable, 1, -1), $_expand);  // old match 
+			preg_match_all('/(?:[^\\\]' . $this->_dvar_regexp . ')/', substr((string) $variable, 1, -1), $_expand);  // old match 
 //			preg_match_all('/(?:[^\\\]' . $this->_dvar_regexp . '[^\\\])/', $variable, $_expand);
 			$_expand = array_unique($_expand[0]);
 			foreach($_expand as $key => $value)
@@ -708,12 +710,12 @@ class Template_Lite_Compiler extends Template_Lite {
 			$_result = str_replace("`", "", $_result);
 			return $_result;
 		}
-		elseif ($variable{0} == "'")
+		elseif ($variable[0] == "'")
 		{
 			// return the value just as it is
 			return $variable;
 		}
-		elseif ($variable{0} == "%")
+		elseif ($variable[0] == "%")
 		{
 			return $this->_parse_section_prop($variable);
 		}
@@ -728,9 +730,9 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _parse_section_prop($section_prop_expr)
 	{
-		$parts = explode('|', $section_prop_expr, 2);
+		$parts = explode('|', (string) $section_prop_expr, 2);
 		$var_ref = $parts[0];
-		$modifiers = isset($parts[1]) ? $parts[1] : '';
+		$modifiers = $parts[1] ?? '';
 
 		preg_match('!%(\w+)\.(\w+)%!', $var_ref, $match);
 		$section_name = $match[1];
@@ -748,7 +750,7 @@ class Template_Lite_Compiler extends Template_Lite {
 		$_result	= "";
 
 		// remove the $
-		$variable = substr($variable, 1);
+		$variable = substr((string) $variable, 1);
 
 		// get [foo] and .foo and (...) pieces
 		preg_match_all('!(?:^\w+)|(?:' . $this->_var_bracket_regexp . ')|\.\$?\w+|\S+!', $variable, $_match);
@@ -757,9 +759,9 @@ class Template_Lite_Compiler extends Template_Lite {
 
 		if ($var_name == $this->reserved_template_varname)
 		{
-			if ($variable[0]{0} == '[' || $variable[0]{0} == '.')
+			if ($variable[0][0] == '[' || $variable[0][0] == '.')
 			{
-				$find = array("[", "]", ".");
+				$find = ["[", "]", "."];
 				switch(strtoupper(str_replace($find, "", $variable[0])))
 				{
 					case 'GET':
@@ -804,7 +806,7 @@ class Template_Lite_Compiler extends Template_Lite {
 					case 'CONST':
 						$constant = str_replace($find, "", $_match[0][2]);
 						$_result = "constant('$constant')";
-						$variable = array();
+						$variable = [];
 						break;
 					default:
 						$_var_name = str_replace($find, "", $variable[0]);
@@ -825,18 +827,18 @@ class Template_Lite_Compiler extends Template_Lite {
 
 		foreach ($variable as $var)
 		{
-			if ($var{0} == '[')
+			if ($var[0] == '[')
 			{
 				$var = substr($var, 1, -1);
 				if (is_numeric($var))
 				{
 					$_result .= "[$var]";
 				}
-				elseif ($var{0} == '$')
+				elseif ($var[0] == '$')
 				{
 					$_result .= "[" . $this->_compile_variable($var) . "]";
 				}
-				elseif ($var{0} == '#')
+				elseif ($var[0] == '#')
 				{
 					$_result .= "[" . $this->_compile_config($var) . "]";
 				}
@@ -845,13 +847,13 @@ class Template_Lite_Compiler extends Template_Lite {
 //					$_result .= "['$var']";
 					$parts = explode('.', $var);
 					$section = $parts[0];
-					$section_prop = isset($parts[1]) ? $parts[1] : 'index';
+					$section_prop = $parts[1] ?? 'index';
 					$_result .= "[\$this->_sections['$section']['$section_prop']]";
 				}
 			}
-			else if ($var{0} == '.')
+			else if ($var[0] == '.')
 			{
-   				if ($var{1} == '$')
+   				if ($var[1] == '$')
 				{
 	   				$_result .= "[\$this->_TPL['" . substr($var, 2) . "']]";
 				}
@@ -860,7 +862,7 @@ class Template_Lite_Compiler extends Template_Lite {
 			   		$_result .= "['" . substr($var, 1) . "']";
 				}
 			}
-			else if (substr($var,0,2) == '->')
+			else if (str_starts_with($var, '->'))
 			{
 				if(substr($var,2,2) == '__')
 				{
@@ -881,12 +883,12 @@ class Template_Lite_Compiler extends Template_Lite {
 
 	function _parse_modifier($variable, $modifiers)
 	{
-		$_match		= array();
-		$_mods		= array();		// stores all modifiers
-		$_args		= array();		// modifier arguments
+		$_match		= [];
+		$_mods		= [];		// stores all modifiers
+		$_args		= [];		// modifier arguments
 
 		preg_match_all('!\|(@?\w+)((?>:(?:'. $this->_qstr_regexp . '|[^|]+))*)!', '|' . $modifiers, $_match);
-		list(, $_mods, $_args) = $_match;
+		[, $_mods, $_args] = $_match;
 
 		$count_mods = count($_mods);
 		for ($i = 0, $for_max = $count_mods; $i < $for_max; $i++)
@@ -894,7 +896,7 @@ class Template_Lite_Compiler extends Template_Lite {
 			preg_match_all('!:(' . $this->_qstr_regexp . '|[^:]+)!', $_args[$i], $_match);
 			$_arg = $_match[1];
 
-			if ($_mods[$i]{0} == '@')
+			if ($_mods[$i][0] == '@')
 			{
 				$_mods[$i] = substr($_mods[$i], 1);
 				$_map_array = 0;
@@ -951,7 +953,7 @@ class Template_Lite_Compiler extends Template_Lite {
 			require_once($this->_get_plugin_dir($type . '.' . $function . '.php') . $type . '.' . $function . '.php');
 			if (function_exists('tpl_' . $type . '_' . $function))
 			{
-				$this->_require_stack[$type . '.' . $function . '.php'] = array($type, $function, 'tpl_' . $type . '_' . $function);
+				$this->_require_stack[$type . '.' . $function . '.php'] = [$type, $function, 'tpl_' . $type . '_' . $function];
 				return ('tpl_' . $type . '_' . $function);
 			}
 		}

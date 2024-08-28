@@ -57,30 +57,30 @@ function tpl_function_mailto($params, &$template_object)
 	// netscape and mozilla do not decode %40 (@) in BCC field (bug?)
 	// so, don't encode it.
 
-	$mail_parms = array();
+	$mail_parms = [];
 	if (!empty($cc))
 	{
-		$mail_parms[] = 'cc='.str_replace('%40','@',rawurlencode($cc));
+		$mail_parms[] = 'cc='.str_replace('%40','@',rawurlencode((string) $cc));
 	}
 
 	if (!empty($bcc))
 	{
-		$mail_parms[] = 'bcc='.str_replace('%40','@',rawurlencode($bcc));
+		$mail_parms[] = 'bcc='.str_replace('%40','@',rawurlencode((string) $bcc));
 	}
 
 	if (!empty($subject))
 	{
-		$mail_parms[] = 'subject='.rawurlencode($subject);
+		$mail_parms[] = 'subject='.rawurlencode((string) $subject);
 	}
 
 	if (!empty($newsgroups))
 	{
-		$mail_parms[] = 'newsgroups='.rawurlencode($newsgroups);
+		$mail_parms[] = 'newsgroups='.rawurlencode((string) $newsgroups);
 	}
 
 	if (!empty($followupto))
 	{
-		$mail_parms[] = 'followupto='.str_replace('%40','@',rawurlencode($followupto));
+		$mail_parms[] = 'followupto='.str_replace('%40','@',rawurlencode((string) $followupto));
 	}
 
 	$mail_parm_vals = "";
@@ -95,7 +95,7 @@ function tpl_function_mailto($params, &$template_object)
 	{
 		$encode = 'none';
     }
-	elseif (!in_array($encode,array('javascript','hex','none')) )
+	elseif (!in_array($encode,['javascript', 'hex', 'none']) )
 	{
         $template_object->trigger_error("mailto: 'encode' parameter must be none, javascript or hex");
         return;	
@@ -131,9 +131,9 @@ function tpl_function_mailto($params, &$template_object)
 			}
 		}
 		$text_encode = "";
-		for ($x=0; $x < strlen($text); $x++)
+		for ($x=0; $x < strlen((string) $text); $x++)
 		{
-			$text_encode .= '&#x' . bin2hex($text[$x]).';';
+			$text_encode .= '&#x' . bin2hex((string) $text[$x]).';';
 		}
 		return '<a href="mailto:'.$address_encode.'" '.$extra.'>'.$text_encode.'</a>';
 	}

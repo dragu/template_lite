@@ -8,6 +8,6 @@
  */
 function tpl_modifier_capitalize($string)
 {
-	return ucwords($string);
+	return ucwords((string) $string);
 }
 ?>

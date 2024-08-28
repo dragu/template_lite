@@ -25,17 +25,17 @@
  */
 
 class config {
-	var $overwrite 			= false;	// overwrite variables of the same name? if false, an array will be created
-	var $booleanize			= true;		// turn true/false, yes/no, on/off, into 1/0
-	var $fix_new_lines		= true;		// turns \r\n into \n?
-	var $read_hidden		= true;		// read hidden sections?
+	public $overwrite 			= false;	// overwrite variables of the same name? if false, an array will be created
+	public $booleanize			= true;		// turn true/false, yes/no, on/off, into 1/0
+	public $fix_new_lines		= true;		// turns \r\n into \n?
+	public $read_hidden		= true;		// read hidden sections?
 
-	var $_db_qstr_regexp		= null;
-	var $_bool_true_regexp		= null;
-	var $_bool_false_regexp		= null;
-	var $_qstr_regexp		= null;
+	public $_db_qstr_regexp		= null;
+	public $_bool_true_regexp		= null;
+	public $_bool_false_regexp		= null;
+	public $_qstr_regexp		= null;
 
-	function config()
+	function __construct()
 	{
 		$this->_db_qstr_regexp = '"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"';
 		$this->_bool_true_regexp = 'true|yes|on';
@@ -45,7 +45,7 @@ class config {
 
 	function config_load($file, $section_name = null, $var_name = null)
 	{
-		$_result = array();
+		$_result = [];
 		$contents = file_get_contents($file);
 		if (empty($contents))
 		{
@@ -71,12 +71,12 @@ class config {
 		{
 			foreach ($match[1] as $section)
 			{
-				if ($section{0} == '.' && !$this->read_hidden)
+				if ($section[0] == '.' && !$this->read_hidden)
 				{
 					continue;
 				}
 				preg_match("/\[".preg_quote($section)."\](.*?)(\n\[|\Z)/s",$contents,$match);
-				if ($section{0} == '.')
+				if ($section[0] == '.')
 				{
 					$section = substr($section, 1);
 				}
@@ -99,7 +99,7 @@ class config {
 				}
 				else
 				{
-					return array();
+					return [];
 				}
 			}
 		}
@@ -117,7 +117,7 @@ class config {
 				}
 				else
 				{
-					return array();
+					return [];
 				}
 			}
 		}
@@ -125,8 +125,8 @@ class config {
 
 	function _parse_config_section($body)
 	{
-		$_result = array();
-		preg_match_all('!(\n\s*[a-zA-Z0-9_]+)\s*=\s*(' . $this->_qstr_regexp . ')!s', $body, $ini);
+		$_result = [];
+		preg_match_all('!(\n\s*[a-zA-Z0-9_]+)\s*=\s*(' . $this->_qstr_regexp . ')!s', (string) $body, $ini);
 		$keys = $ini[1];
 		$values = $ini[2];
 		for($i = 0, $for_max = count($ini[0]); $i < $for_max; $i++)
@@ -154,7 +154,7 @@ class config {
 			{
 				if (!is_array($_result[trim($keys[$i])]))
 				{
-					$_result[trim($keys[$i])] = array($_result[trim($keys[$i])]);
+					$_result[trim($keys[$i])] = [$_result[trim($keys[$i])]];
 				}
 				$_result[trim($keys[$i])][] = $values[$i];
 			}

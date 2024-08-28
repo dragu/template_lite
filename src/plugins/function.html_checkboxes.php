@@ -25,16 +25,16 @@ function tpl_function_html_checkboxes($params, &$tpl)
 		{
 			case 'name':
 			case 'value':
-				$$_key = $_value;
+				${$_key} = $_value;
 				break;
 			case 'checked':
 				if ($_key == 'true' || $_key == 'yes' || $_key == 'on')
 				{
-					$$_key = true;
+					${$_key} = true;
 				}
 				else
 				{
-					$$_key = false;
+					${$_key} = false;
 				}
 				break;
 			default:
